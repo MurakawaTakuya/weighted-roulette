@@ -1,6 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import './style.scss';
 import { Roulette, useRoulette } from 'react-hook-roulette';
+
+const templateItems = [
+  {name: 'キノコ', weight: 10},
+  {name: '金キノコ', weight: 20},
+  {name: 'スター', weight: 30},
+  {name: 'テレサ', weight: 40},
+];
 
 const itemsRank1 = [
   { name: 'キノコ', weight: 20 },
@@ -67,7 +74,9 @@ const itemsRank6 = [
 ];
 
 export const App: FC<{ name: string }> = ({ name }) => {
-  const [selectedItems, setSelectedItems] = useState(itemsRank1);
+  const [selectedItems, setSelectedItems] = useState<any[]>(templateItems);
+  const [autoStop, setAutoStop] = useState(true);
+  const stopButtonRef = useRef<HTMLButtonElement>(null);
 
   const { roulette, onStart, onStop, result } = useRoulette({
     items: selectedItems,
@@ -80,21 +89,42 @@ export const App: FC<{ name: string }> = ({ name }) => {
 
   const totalWeight = selectedItems.reduce((total, item) => total + item.weight, 0);
 
+  const handleStart = () => {
+    onStart();
+    if (autoStop && stopButtonRef.current) {
+      setTimeout(() => {
+        stopButtonRef.current?.click();
+      }, 2000);
+    }
+  };
+
   return (
     <div className="mt-2 vstack items-center">
       <Roulette roulette={roulette} />
       <div className="hstack">
-        <button type="button" onClick={onStart}>
+        <button type="button" onClick={handleStart} disabled={selectedItems.length === 0}>
           Start
         </button>
-        <button type="button" onClick={onStop}>
+        <button ref={stopButtonRef} type="button" onClick={onStop}>
           Stop
         </button>
       </div>
 
-      <h1>Result: {result || 'No result yet'}</h1>
+      <div className="auto-stop-toggle">
+        <label>
+          <input
+            type="checkbox"
+            checked={autoStop}
+            onChange={() => setAutoStop(!autoStop)}
+          />
+          自動でストップする
+        </label>
+      </div>
+
+      <h1>Result: {result || 'ルーレットを回してください'}</h1>
       
       <div className="template-buttons">
+        <h2>テンプレート</h2>
         <button onClick={() => setSelectedItems(itemsRank1)}>1位</button>
         <button onClick={() => setSelectedItems(itemsRank2)}>2位</button>
         <button onClick={() => setSelectedItems(itemsRank3)}>3位</button>
@@ -104,14 +134,20 @@ export const App: FC<{ name: string }> = ({ name }) => {
 
       <div className="selected-items">
         <h2>アイテムと確率</h2>
-        <ul>
-          {selectedItems.map((item, index) => (
-            <li key={index}>
-              {item.name}: {item.weight}%
-            </li>
-          ))}
-        </ul>
-        <p>合計: {totalWeight}%</p>
+        {selectedItems.length > 0 ? (
+          <>
+            <ul>
+              {selectedItems.map((item, index) => (
+                <li key={index}>
+                  {item.name}: {item.weight}%
+                </li>
+              ))}
+            </ul>
+            <p>合計: {totalWeight}%</p>
+          </>
+        ) : (
+          <p>アイテムが選択されていません。</p>
+        )}
       </div>
     </div>
   );
