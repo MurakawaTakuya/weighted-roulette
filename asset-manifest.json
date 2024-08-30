@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/roulette-for-travel/static/css/main.9d8d1a4c.css",
+    "main.js": "/roulette-for-travel/static/js/main.c244e0d9.js",
+    "index.html": "/roulette-for-travel/index.html",
+    "main.9d8d1a4c.css.map": "/roulette-for-travel/static/css/main.9d8d1a4c.css.map",
+    "main.c244e0d9.js.map": "/roulette-for-travel/static/js/main.c244e0d9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9d8d1a4c.css",
+    "static/js/main.c244e0d9.js"
+  ]
+}
