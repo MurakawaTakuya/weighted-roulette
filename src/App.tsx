@@ -73,6 +73,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>("1位");
   const [isEditing, setIsEditing] = useState(false);
   const [isModified, setIsModified] = useState(false);
+  const [isCopied, setIsCopied] = useState(false); // State to handle the button style after copying
 
   const itemDescriptions: { [key: string]: string } = {
     "キノコ": "次の評価1を上げる",
@@ -159,11 +160,11 @@ export const App: FC<{ name: string }> = ({ name }) => {
     if (result && itemDescriptions[result]) {
       const textToCopy = `${result}\n${itemDescriptions[result]}`;
       navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("結果と説明がクリップボードにコピーされました");
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 5000); // Revert after 5 seconds
       });
     }
   };
-  
 
   return (
     <div className="mt-2 vstack items-center">
@@ -196,7 +197,15 @@ export const App: FC<{ name: string }> = ({ name }) => {
             <p className="item-description">
               {itemDescriptions[result]}
             </p>
-            <button onClick={copyToClipboard}>結果と説明をコピー</button>
+            <button 
+              onClick={copyToClipboard} 
+              style={{
+                borderColor: isCopied ? 'green' : 'initial',
+                color: isCopied ? 'green' : 'initial',
+              }}
+            >
+              結果と説明をコピー
+            </button>
           </div>
         )}
       </div>
