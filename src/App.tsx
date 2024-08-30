@@ -74,6 +74,27 @@ export const App: FC<{ name: string }> = ({ name }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isModified, setIsModified] = useState(false);
 
+  const itemDescriptions: { [key: string]: string } = {
+    "キノコ": "次の評価1を上げる",
+    "金キノコ": "次の評価1を上げる ×2",
+    "緑コウラ": "ランダムな班に-30pt",
+    "赤コウラ": "指定班に-30pt",
+    "トゲゾーこうら": "1位: -80pt, 2位: -40pt, 3位: -20pt",
+    "バナナ": "行ったことのあるのチェックポイントに-30pt設置(永続)",
+    "ボムへい": "指定班と、その±1位の合計3班に-20pt",
+    "キラー": "次回確定「秀」",
+    "サンダー": "自分以外のアイテム全削除",
+    "スター": "20分間どのアイテムの効果も効かない & 次の評価1を上げる",
+    "ゲッソー": "自分の班以外の次の評価を1下げる",
+    "テレサ": "ランダムな班のアイテムを奪う",
+    "パックンフラワー": "ひとつ上の順位のコインを1枚奪う & 次の評価を1上げる",
+    "クラクション": "指定した攻撃アイテムを一度だけ防御する",
+    "ミラクル8": "幹事に電話することができる",
+    "ジュゲム": "任意の1か所のチェックポイントを行ったことにできる",
+    "コイン": "コイン+1",
+    "スターコイン": "コイン+10",
+  };
+
   const { roulette, onStart, onStop, result } = useRoulette({
     items: selectedItems,
     options: {
@@ -82,7 +103,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
       determineAngle: 90,
       style: {
         arrow: {
-          bg: "#2c2c2c",
+          bg: "#ff7b1d",
           size: 13,
         },
       },
@@ -131,15 +152,18 @@ export const App: FC<{ name: string }> = ({ name }) => {
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
-    if (!isEditing) {
-      setIsModified(true);
-      setSelectedTemplate("編集");
-    } else if (isModified) {
-      setSelectedTemplate("編集");
-    } else {
-      setSelectedTemplate(null);
+    setSelectedTemplate(isEditing || !isModified ? null : "編集");
+  };
+
+  const copyToClipboard = () => {
+    if (result && itemDescriptions[result]) {
+      const textToCopy = `${result}\n${itemDescriptions[result]}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert("結果と説明がクリップボードにコピーされました");
+      });
     }
   };
+  
 
   return (
     <div className="mt-2 vstack items-center">
@@ -164,7 +188,18 @@ export const App: FC<{ name: string }> = ({ name }) => {
         </label>
       </div>
 
-      <h1>Result: {result || 'ルーレットを回してください'}</h1>
+      <div className="result">
+        <h1>Result: {result || 'ルーレットを回してください'}</h1>
+
+        {result && itemDescriptions[result] && (
+          <div>
+            <p className="item-description">
+              {itemDescriptions[result]}
+            </p>
+            <button onClick={copyToClipboard}>結果と説明をコピー</button>
+          </div>
+        )}
+      </div>
       
       <div className="template-buttons">
         <h2>テンプレート</h2>
@@ -202,7 +237,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
 
       <div className="selected-items">
         <h2>アイテムと確率</h2>
-        <p>合計: {totalWeight}%</p>
+        <p className='percentageSum'>合計: {totalWeight}%</p>
         {isEditing ? (
           <>
             <ul>

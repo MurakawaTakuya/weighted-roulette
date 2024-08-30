@@ -54,10 +54,21 @@ button:hover {
   border-color: #0070f3;
 }
 
+.result{
+  margin-top: 5px;
+  text-align: center;
+  *{
+    margin: 5px 0;
+  }
+  .item-description{
+    font-size: 18px;
+  }
+}
+
 .template-buttons {
-  > {
+  text-align: center;
+  > * {
     margin: 5px;
-    text-align: center;
   }
   button.selected {
     border: 2px solid #007bff;
@@ -70,8 +81,8 @@ button:hover {
     margin: 10px 0 8px;
   }
   p{
-    margin: 0;
-    font-size: 18px;
+    margin: 0 0 8px;
+    font-size: 21px;
   }
   ul{
     margin: 5px 0 15px;
