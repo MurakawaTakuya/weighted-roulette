@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/roulette-for-travel/static/css/main.15885cf7.css",
-    "main.js": "/roulette-for-travel/static/js/main.c8c26df3.js",
+    "main.css": "/roulette-for-travel/static/css/main.487973c2.css",
+    "main.js": "/roulette-for-travel/static/js/main.a47cd70f.js",
     "index.html": "/roulette-for-travel/index.html",
-    "main.15885cf7.css.map": "/roulette-for-travel/static/css/main.15885cf7.css.map",
-    "main.c8c26df3.js.map": "/roulette-for-travel/static/js/main.c8c26df3.js.map"
+    "main.487973c2.css.map": "/roulette-for-travel/static/css/main.487973c2.css.map",
+    "main.a47cd70f.js.map": "/roulette-for-travel/static/js/main.a47cd70f.js.map"
   },
   "entrypoints": [
-    "static/css/main.15885cf7.css",
-    "static/js/main.c8c26df3.js"
+    "static/css/main.487973c2.css",
+    "static/js/main.a47cd70f.js"
   ]
 }
