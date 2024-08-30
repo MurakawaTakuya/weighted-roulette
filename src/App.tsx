@@ -2,13 +2,6 @@ import React, { FC, useState, useRef } from 'react';
 import './style.scss';
 import { Roulette, useRoulette } from 'react-hook-roulette';
 
-const templateItems = [
-  {name: 'キノコ', weight: 10},
-  {name: '金キノコ', weight: 20},
-  {name: 'スター', weight: 30},
-  {name: 'テレサ', weight: 40},
-];
-
 const itemsRank1 = [
   { name: 'キノコ', weight: 20 },
   { name: '緑コウラ', weight: 25 },
@@ -74,16 +67,25 @@ const itemsRank6 = [
 ];
 
 export const App: FC<{ name: string }> = ({ name }) => {
-  const [selectedItems, setSelectedItems] = useState<any[]>(templateItems);
+  const [selectedItems, setSelectedItems] = useState<any[]>([...itemsRank1]);
   const [autoStop, setAutoStop] = useState(true);
   const stopButtonRef = useRef<HTMLButtonElement>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>("1位");
+  const [isEditing, setIsEditing] = useState(false);
+  const [isModified, setIsModified] = useState(false);
 
   const { roulette, onStart, onStop, result } = useRoulette({
     items: selectedItems,
     options: {
-      deceleration: 0.2,
+      deceleration: 0.08,
       maxSpeed: 20,
       determineAngle: 90,
+      style: {
+        arrow: {
+          bg: "#2c2c2c",
+          size: 13,
+        },
+      },
     },
   });
 
@@ -94,7 +96,48 @@ export const App: FC<{ name: string }> = ({ name }) => {
     if (autoStop && stopButtonRef.current) {
       setTimeout(() => {
         stopButtonRef.current?.click();
-      }, 2000);
+      }, 1000);
+    }
+  };
+
+  const handleAddItem = () => {
+    const newItem = { name: "新アイテム", weight: 10 };
+    setSelectedItems([...selectedItems, newItem]);
+    setIsModified(true);
+    setSelectedTemplate("編集");
+  };
+
+  const handleDeleteItem = (index: number) => {
+    const newItems = selectedItems.filter((_, i) => i !== index);
+    setSelectedItems(newItems);
+    setIsModified(true);
+    setSelectedTemplate("編集");
+  };
+
+  const handleChangeItem = (index: number, name: string, weight: number) => {
+    const newItems = [...selectedItems];
+    newItems[index] = { name, weight };
+    setSelectedItems(newItems);
+    setIsModified(true);
+    setSelectedTemplate("編集");
+  };
+
+  const handleTemplateSelection = (items: any[], templateName: string) => {
+    setSelectedItems([...items]);
+    setSelectedTemplate(templateName);
+    setIsEditing(false);
+    setIsModified(false);
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+    if (!isEditing) {
+      setIsModified(true);
+      setSelectedTemplate("編集");
+    } else if (isModified) {
+      setSelectedTemplate("編集");
+    } else {
+      setSelectedTemplate(null);
     }
   };
 
@@ -125,16 +168,64 @@ export const App: FC<{ name: string }> = ({ name }) => {
       
       <div className="template-buttons">
         <h2>テンプレート</h2>
-        <button onClick={() => setSelectedItems(itemsRank1)}>1位</button>
-        <button onClick={() => setSelectedItems(itemsRank2)}>2位</button>
-        <button onClick={() => setSelectedItems(itemsRank3)}>3位</button>
-        <button onClick={() => setSelectedItems(itemsRank4To5)}>4-5位</button>
-        <button onClick={() => setSelectedItems(itemsRank6)}>6位</button>
+        <button 
+          className={selectedTemplate === "1位" ? "selected" : ""} 
+          onClick={() => handleTemplateSelection(itemsRank1, "1位")}>
+          1位
+        </button>
+        <button 
+          className={selectedTemplate === "2位" ? "selected" : ""} 
+          onClick={() => handleTemplateSelection(itemsRank2, "2位")}>
+          2位
+        </button>
+        <button 
+          className={selectedTemplate === "3位" ? "selected" : ""} 
+          onClick={() => handleTemplateSelection(itemsRank3, "3位")}>
+          3位
+        </button>
+        <button 
+          className={selectedTemplate === "4-5位" ? "selected" : ""} 
+          onClick={() => handleTemplateSelection(itemsRank4To5, "4-5位")}>
+          4-5位
+        </button>
+        <button 
+          className={selectedTemplate === "6位" ? "selected" : ""} 
+          onClick={() => handleTemplateSelection(itemsRank6, "6位")}>
+          6位
+        </button>
+        <button 
+          className={selectedTemplate === "編集" ? "selected" : ""} 
+          onClick={toggleEditing}>
+          編集
+        </button>
       </div>
 
       <div className="selected-items">
         <h2>アイテムと確率</h2>
-        {selectedItems.length > 0 ? (
+        <p>合計: {totalWeight}%</p>
+        {isEditing ? (
+          <>
+            <ul>
+              {selectedItems.map((item, index) => (
+                <li key={index}>
+                  <input
+                    type="text"
+                    value={item.name}
+                    onChange={(e) => handleChangeItem(index, e.target.value, item.weight)}
+                  />
+                  <input
+                    type="number"
+                    value={item.weight}
+                    onChange={(e) => handleChangeItem(index, item.name, parseInt(e.target.value))}
+                  />
+                  <button onClick={() => handleDeleteItem(index)}>削除</button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleAddItem}>アイテムを追加</button>
+            <button onClick={toggleEditing}>完了</button>
+          </>
+        ) : (
           <>
             <ul>
               {selectedItems.map((item, index) => (
@@ -143,10 +234,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
                 </li>
               ))}
             </ul>
-            <p>合計: {totalWeight}%</p>
           </>
-        ) : (
-          <p>アイテムが選択されていません。</p>
         )}
       </div>
     </div>

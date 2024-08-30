@@ -5,6 +5,7 @@
 body {
   margin: 0;
   padding: 1rem;
+  font-size: 16px;
   color: black;
   background-color: white;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -53,18 +54,48 @@ button:hover {
   border-color: #0070f3;
 }
 
-.template-buttons > *{
-  text-align: center;
-  margin: 5px;
+.template-buttons {
+  > {
+    margin: 5px;
+    text-align: center;
+  }
+  button.selected {
+    border: 2px solid #007bff;
+    background-color: #f8fafa;
+  }
 }
 
 .selected-items{
   h2{
     margin: 10px 0 8px;
   }
+  p{
+    margin: 0;
+    font-size: 18px;
+  }
   ul{
-    margin: 5px;
+    margin: 5px 0 15px;
     list-style: none;
     padding-left: 0;
+    li{
+      margin: 5px 0;
+    }
+  }
+  input{
+    margin: 0 5px;
+    padding: 4px;
+    font-size: 16px;
+    border: thin solid gray;
+    border-radius: 5px;
+    &:nth-of-type(1){
+      width: 130px;
+    }
+    &:nth-of-type(2){
+      width: 50px;
+    }
+  }
+  button{
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
   }
 }
