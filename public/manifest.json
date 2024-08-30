@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ルーレット",
+  "name": "重み付きルーレット",
   "icons": [
     {
       "src": "favicon.ico",

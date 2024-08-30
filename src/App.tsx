@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import './style.scss';
 import { Roulette, useRoulette } from 'react-hook-roulette';
 
@@ -73,7 +73,8 @@ export const App: FC<{ name: string }> = ({ name }) => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>("1位");
   const [isEditing, setIsEditing] = useState(false);
   const [isModified, setIsModified] = useState(false);
-  const [isCopied, setIsCopied] = useState(false); // State to handle the button style after copying
+  const [isCopied, setIsCopied] = useState(false);
+  const [history, setHistory] = useState<{ date: string, result: string, template: string }[]>([]);
 
   const itemDescriptions: { [key: string]: string } = {
     "キノコ": "次の評価1を上げる",
@@ -126,14 +127,14 @@ export const App: FC<{ name: string }> = ({ name }) => {
     const newItem = { name: "新アイテム", weight: 10 };
     setSelectedItems([...selectedItems, newItem]);
     setIsModified(true);
-    setSelectedTemplate("編集");
+    setSelectedTemplate("編集済み");
   };
 
   const handleDeleteItem = (index: number) => {
     const newItems = selectedItems.filter((_, i) => i !== index);
     setSelectedItems(newItems);
     setIsModified(true);
-    setSelectedTemplate("編集");
+    setSelectedTemplate("編集済み");
   };
 
   const handleChangeItem = (index: number, name: string, weight: number) => {
@@ -141,7 +142,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
     newItems[index] = { name, weight };
     setSelectedItems(newItems);
     setIsModified(true);
-    setSelectedTemplate("編集");
+    setSelectedTemplate("編集済み");
   };
 
   const handleTemplateSelection = (items: any[], templateName: string) => {
@@ -153,7 +154,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
-    setSelectedTemplate(isEditing || !isModified ? null : "編集");
+    setSelectedTemplate(isEditing || !isModified ? null : "編集済み");
   };
 
   const copyToClipboard = () => {
@@ -165,6 +166,34 @@ export const App: FC<{ name: string }> = ({ name }) => {
       });
     }
   };
+
+  useEffect(() => {
+    const savedHistory = localStorage.getItem('rouletteHistory');
+    if (savedHistory) {
+      setHistory(JSON.parse(savedHistory));
+    }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('rouletteHistory', JSON.stringify(history));
+  }, [history]);
+
+  const saveHistory = () => {
+    if (result) {
+      const newEntry = {
+        date: new Date().toLocaleString(),
+        result,
+        template: selectedTemplate || "編集済み",
+      };
+      setHistory([newEntry, ...history]);
+    }
+  };
+  
+  useEffect(() => {
+    if (result) {
+      saveHistory();
+    }
+  }, [result]);
 
   return (
     <div className="mt-2 vstack items-center">
@@ -238,7 +267,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
           6位
         </button>
         <button 
-          className={selectedTemplate === "編集" ? "selected" : ""} 
+          className={selectedTemplate === "編集" || isModified ? "selected" : ""} 
           onClick={toggleEditing}>
           編集
         </button>
@@ -280,6 +309,22 @@ export const App: FC<{ name: string }> = ({ name }) => {
             </ul>
           </>
         )}
+      </div>
+
+      <div className="history">
+        <h2>履歴</h2>
+        {history.length > 0 ? (
+          <ul>
+            {history.map((entry, index) => (
+              <li key={index}>
+                {entry.date}: {entry.result}（{entry.template}）
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>履歴がありません。</p>
+        )}
+        <button onClick={() => setHistory([])}>履歴を削除</button>
       </div>
     </div>
   );

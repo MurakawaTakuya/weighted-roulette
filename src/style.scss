@@ -16,6 +16,15 @@ h1 {
   font-size: 1.5rem;
 }
 
+h2{
+  text-align: center;
+}
+
+ul{
+  list-style: none;
+  padding-left: 0;
+}
+
 .mt-2 {
   margin-top: 2rem;
 }
@@ -89,9 +98,7 @@ button:hover {
     font-size: 21px;
   }
   ul{
-    margin: 5px 0 15px;
-    list-style: none;
-    padding-left: 0;
+    margin: 5px 0 0;
     li{
       margin: 5px 0;
     }
@@ -112,5 +119,11 @@ button:hover {
   button{
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
+  }
+}
+
+.history{
+  h2{
+    margin: 10px 0 8px;
   }
 }
