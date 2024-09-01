@@ -57,10 +57,13 @@ button {
   background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-
-button:hover {
-  border-color: #0070f3;
+  &:hover {
+    border-color: #0070f3;
+  }
+  &.selected {
+    border: 2px solid #007bff;
+      background-color: #f8fafa;
+  }
 }
 
 .result{
@@ -85,10 +88,6 @@ button:hover {
   button{
     margin: 0 5px;
     padding: 0.5rem 1rem;
-    &.selected{
-      border: 2px solid #007bff;
-      background-color: #f8fafa;
-    }
   }
 }
 
