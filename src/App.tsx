@@ -274,8 +274,8 @@ export const App: FC<{ name: string }> = ({ name }) => {
       </div>
 
       <div className="selected-items">
-        <h2>アイテムと確率</h2>
-        <p className='percentageSum'>合計: {totalWeight}%</p>
+        <h2>アイテムと重み</h2>
+        <p className='percentageSum'>合計: {totalWeight}</p>
         {isEditing ? (
           <>
             <ul>
@@ -303,7 +303,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
             <ul>
               {selectedItems.map((item, index) => (
                 <li key={index}>
-                  {item.name}: {item.weight}%
+                  {item.name}: {item.weight}
                 </li>
               ))}
             </ul>
