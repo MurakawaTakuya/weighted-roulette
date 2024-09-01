@@ -75,6 +75,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
   const [isModified, setIsModified] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [history, setHistory] = useState<{ date: string, result: string, template: string }[]>([]);
+  const [result, setResult] = useState("");
 
   const itemDescriptions: { [key: string]: string } = {
     "キノコ": "次の評価1を上げる",
@@ -97,7 +98,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
     "スターコイン": "コイン+10",
   };
 
-  const { roulette, onStart, onStop, result } = useRoulette({
+  const { roulette, onStart, onStop } = useRoulette({
     items: selectedItems,
     options: {
       deceleration: 0.08,
@@ -110,11 +111,15 @@ export const App: FC<{ name: string }> = ({ name }) => {
         },
       },
     },
+    onSpinEnd: (result) => {
+      setResult(result);
+    },
   });
 
   const totalWeight = selectedItems.reduce((total, item) => total + item.weight, 0);
 
   const handleStart = () => {
+    setResult("");
     onStart();
     if (autoStop && stopButtonRef.current) {
       setTimeout(() => {
@@ -190,7 +195,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
   };
   
   useEffect(() => {
-    if (result) {
+    if (result && result !== "") {
       saveHistory();
     }
   }, [result]);
