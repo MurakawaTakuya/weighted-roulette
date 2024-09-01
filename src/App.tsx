@@ -246,40 +246,44 @@ export const App: FC<{ name: string }> = ({ name }) => {
       
       <div className="template-buttons">
         <h2>テンプレート</h2>
-        <button 
-          className={selectedTemplate === "1位" ? "selected" : ""} 
-          onClick={() => handleTemplateSelection(itemsRank1, "1位")}>
-          1位
-        </button>
-        <button 
-          className={selectedTemplate === "2位" ? "selected" : ""} 
-          onClick={() => handleTemplateSelection(itemsRank2, "2位")}>
-          2位
-        </button>
-        <button 
-          className={selectedTemplate === "3位" ? "selected" : ""} 
-          onClick={() => handleTemplateSelection(itemsRank3, "3位")}>
-          3位
-        </button>
-        <button 
-          className={selectedTemplate === "4-5位" ? "selected" : ""} 
-          onClick={() => handleTemplateSelection(itemsRank4To5, "4-5位")}>
-          4-5位
-        </button>
-        <button 
-          className={selectedTemplate === "6位" ? "selected" : ""} 
-          onClick={() => handleTemplateSelection(itemsRank6, "6位")}>
-          6位
-        </button>
-        <button 
-          className={selectedTemplate === "編集" || isModified ? "selected" : ""} 
-          onClick={toggleEditing}>
-          編集
-        </button>
+        <div>
+          <button 
+            className={selectedTemplate === "1位" ? "selected" : ""} 
+            onClick={() => handleTemplateSelection(itemsRank1, "1位")}>
+            1位
+          </button>
+          <button 
+            className={selectedTemplate === "2位" ? "selected" : ""} 
+            onClick={() => handleTemplateSelection(itemsRank2, "2位")}>
+            2位
+          </button>
+          <button 
+            className={selectedTemplate === "3位" ? "selected" : ""} 
+            onClick={() => handleTemplateSelection(itemsRank3, "3位")}>
+            3位
+          </button>
+          <button 
+            className={selectedTemplate === "4-5位" ? "selected" : ""} 
+            onClick={() => handleTemplateSelection(itemsRank4To5, "4-5位")}>
+            4-5位
+          </button>
+          <button 
+            className={selectedTemplate === "6位" ? "selected" : ""} 
+            onClick={() => handleTemplateSelection(itemsRank6, "6位")}>
+            6位
+          </button>
+        </div>
       </div>
 
       <div className="selected-items">
-        <h2>アイテムと重み</h2>
+        <div className='selected-items-title'>
+          <h2>アイテムと重み</h2>
+          <button 
+            className={selectedTemplate === "編集" || isModified ? "selected" : ""} 
+            onClick={toggleEditing}>
+            編集
+          </button>
+        </div>
         <p className='percentageSum'>合計: {totalWeight}</p>
         {isEditing ? (
           <>
