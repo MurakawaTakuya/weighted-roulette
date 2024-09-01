@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/roulette-for-travel/static/css/main.dc2710e9.css",
-    "main.js": "/roulette-for-travel/static/js/main.138adc95.js",
-    "index.html": "/roulette-for-travel/index.html",
-    "main.dc2710e9.css.map": "/roulette-for-travel/static/css/main.dc2710e9.css.map",
-    "main.138adc95.js.map": "/roulette-for-travel/static/js/main.138adc95.js.map"
+    "main.css": "/weighted-roulette/static/css/main.dc2710e9.css",
+    "main.js": "/weighted-roulette/static/js/main.138adc95.js",
+    "index.html": "/weighted-roulette/index.html",
+    "main.dc2710e9.css.map": "/weighted-roulette/static/css/main.dc2710e9.css.map",
+    "main.138adc95.js.map": "/weighted-roulette/static/js/main.138adc95.js.map"
   },
   "entrypoints": [
     "static/css/main.dc2710e9.css",
