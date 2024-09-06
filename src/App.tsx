@@ -66,6 +66,16 @@ const itemsRank6 = [
   { name: 'ジュゲム', weight: 5 },
 ];
 
+const attack = [
+  { name: '1号車', weight: 1 },
+  { name: '2号車', weight: 1 },
+  { name: '3号車', weight: 1 },
+  { name: '4号車', weight: 1 },
+  { name: '5号車', weight: 1 },
+  { name: '6号車', weight: 1 },
+];
+
+
 export const App: FC<{ name: string }> = ({ name }) => {
   const [selectedItems, setSelectedItems] = useState<any[]>([...itemsRank1]);
   const [autoStop, setAutoStop] = useState(true);
@@ -271,6 +281,11 @@ export const App: FC<{ name: string }> = ({ name }) => {
             className={selectedTemplate === "6位" ? "selected" : ""} 
             onClick={() => handleTemplateSelection(itemsRank6, "6位")}>
             6位
+          </button>
+          <button
+            className={selectedTemplate === "ランダムに班を選ぶ" ? "selected" : ""}
+            onClick={() => handleTemplateSelection(attack, "ランダムに班を選ぶ")}>
+            ランダムに班を選ぶ
           </button>
         </div>
       </div>
