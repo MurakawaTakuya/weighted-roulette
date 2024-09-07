@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/weighted-roulette/static/css/main.d87f1dd5.css",
-    "main.js": "/weighted-roulette/static/js/main.0ceb29f4.js",
+    "main.js": "/weighted-roulette/static/js/main.65c834b1.js",
     "index.html": "/weighted-roulette/index.html",
     "main.d87f1dd5.css.map": "/weighted-roulette/static/css/main.d87f1dd5.css.map",
-    "main.0ceb29f4.js.map": "/weighted-roulette/static/js/main.0ceb29f4.js.map"
+    "main.65c834b1.js.map": "/weighted-roulette/static/js/main.65c834b1.js.map"
   },
   "entrypoints": [
     "static/css/main.d87f1dd5.css",
-    "static/js/main.0ceb29f4.js"
+    "static/js/main.65c834b1.js"
   ]
 }
